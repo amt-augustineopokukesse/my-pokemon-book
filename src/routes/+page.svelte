@@ -25,20 +25,24 @@
             🔍
           </button>
         </div>
-        <div class="view-all">View all</div>
+        <a href="/all" class="view-all">View all</a>
     </div>
 </div>
   
 <style>
     .container {
+        box-sizing: border-box;
       /* text-align: center; */
       /* padding: 2rem; */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 95vh;
+      height: 100vh;
+      padding-bottom: 20px;
       width: 100%;
+      font-family: 'Roboto', sans-serif;
+      /* background-color: aqua; */
     }
 
     .upper {
@@ -53,7 +57,7 @@
 
     .title-description {
       text-align: center;
-      font-family: 'Roboto', sans-serif;
+      
     }
   
     .header-image {
