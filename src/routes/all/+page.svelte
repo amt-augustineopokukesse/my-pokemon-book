@@ -68,7 +68,9 @@
 			<img src={pokeLogo} alt="Pokébook" class="logo" />
 			<p class="title"><span class="title-left">Poké</span><span class="title-right">book</p>
 		</div>
-		<input type="text" placeholder="Enter pokemon name" />
+    <div class="search-container">
+      <input type="text" placeholder="Enter pokemon name" />
+    </div>
 		<p>color picker</p>
 	</div>
 
@@ -133,7 +135,7 @@
 		justify-content: space-between;
 		align-items: center;
 		box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
-		/* background-color: aqua; */
+		background-color: #f8f8f8;
     box-sizing: border-box;
 	}
 
@@ -168,14 +170,34 @@
         color: rgba(232, 83, 130, 1);
     }
 
-	.header input {
-		padding: 0.5rem;
-		border: 2px solid #ccc;
-		border-radius: 25px;
-		width: 300px;
-		position: inherit;
-		/* left: 35%; */
-	}
+    .search-container {
+    display: flex;
+    align-items: center;
+    width: 40%;
+    justify-content: center;
+    position: relative;
+  }
+
+  .search-container input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: box-shadow 0.2s;
+  }
+
+  .search-container input::placeholder {
+    color: #999;
+    font-style: italic;
+  }
+
+  .search-container input:focus {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
 
 	.pokemon-grid {
 		display: grid;
