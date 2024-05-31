@@ -1,5 +1,6 @@
 <script>
-    import pokeImg from '../assets/images/pokeCover.svg';
+    import { all } from 'axios';
+import pokeImg from '../assets/images/pokeCover.svg';
     let pokemonName = '';
     let pokeImage = pokeImg;
 </script>
@@ -21,9 +22,12 @@
             bind:value={pokemonName} 
             class="search-input"
           />
-          <button class="search-button">
+          <!-- <button class="search-button">
             🔍
-          </button>
+          </button> -->
+          <a href="/all">
+            <img src="/src/assets/images/pokemon-search.svg" alt="search-icon" class="search-icon">            
+          </a>
         </div>
         <a href="/all" class="view-all">View all</a>
     </div>
@@ -98,26 +102,35 @@
       justify-content: center;
       margin-bottom: 1rem;
       width: 100%;
+      position: relative;
+      border: 4px solid pink;
+      border-radius: 50px;
+
     }
   
     .search-input {
       padding: 0.5rem;
-      border: 4px solid pink;
-      border-radius: 25px 0 0 25px;
-      width: 80%;
+      padding-left: 20px;
+      border-radius: 50px;
+      width: 100%;
       height: 48px;
+      font-size: 24px;
+      border: none;
     }
 
     .search-input:focus {
       outline: none;
     }
   
-    .search-button {
-      background-color: pink;
+    .search-icon {
+      /* background-color: pink; */
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 0 25px 25px 0;
       cursor: pointer;
+      position: absolute;
+      right: -1%;
+      /* top: 5%; */
     }
   
     .view-all {

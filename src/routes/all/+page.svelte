@@ -28,8 +28,9 @@
 	async function fetchPokemon() {
 		try {
 			const offset = (currentPage - 1) * itemsPerPage;
+      const baseUrl = import.meta.env.VITE_POKEMON_API_BASE_URL;
 			const response = await axios.get(
-				`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${itemsPerPage}`
+				`${baseUrl}/pokemon?offset=${offset}&limit=${itemsPerPage}`
 			);
 			const results = response.data.results;
 
