@@ -1,6 +1,8 @@
 <script lang="ts">
 	import axios from 'axios';
 	import { onMount } from 'svelte';
+  import { searchInput } from '$lib/stores';
+  import { get } from 'svelte/store';
 	import pokeLogo from '../../assets/images/pokebook-logo.svg';
 
 	interface Pokemon {
@@ -21,9 +23,16 @@
 	}
 
 	let pokemonList: Pokemon[] = [];
+  let filteredPokemonList: Pokemon[] = [];
 	let currentPage = 1;
 	let itemsPerPage = 8;
 	let totalPages = 1281;
+
+  let search = '';
+
+  searchInput.subscribe(value => {
+    search = value;
+  });
 
 	async function fetchPokemon() {
 		try {
@@ -46,7 +55,33 @@
 		}
 	}
 
-	onMount(fetchPokemon);
+	onMount(async () => {
+    try {
+      console.log('Fetching Pokemon data...');
+      pokemonList = await fetchPokemon(currentPage, itemsPerPage);
+      filterPokemonList();
+    } catch (error) {
+      console.error('Error fetching Pokémon data:', error);
+    }
+  });
+
+  $: filteredPokemonList = search
+    ? pokemonList.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : pokemonList;
+
+  const filterPokemonList = () => {
+    if (search) {
+      console.log('search', search);
+      filteredPokemonList = pokemonList.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      console.log('filter did not run');
+      filteredPokemonList = pokemonList;
+    }
+  };
 
 	function handlePageChange(page: number) {
 		currentPage = page;
@@ -74,13 +109,13 @@
 			<p class="title"><span class="title-left">Poké</span><span class="title-right">book</p>
 		</div>
     <div class="search-container">
-      <input type="text" placeholder="Enter pokemon name" />
+      <input bind:value={search} type="text" placeholder="Enter pokemon name" />
     </div>
 		<p>color picker</p>
 	</div>
 
 	<div class="pokemon-grid">
-    {#each pokemonList as pokemon}
+    {#each filteredPokemonList as pokemon}
       <div class="pokemon-card">
         <div class="pokemon-image-container">
           <img src={pokemon.sprites.other.dream_world.front_default} alt={pokemon.name} class="pokemon-image"/>

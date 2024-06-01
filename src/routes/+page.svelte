@@ -1,8 +1,15 @@
 <script>
-    import { all } from 'axios';
-import pokeImg from '../assets/images/pokeCover.svg';
-    let pokemonName = '';
-    let pokeImage = pokeImg;
+  import pokeImg from '../assets/images/pokeCover.svg';
+  import { searchInput } from '$lib/stores';
+  import { goto } from '$app/navigation';
+
+  let pokemonName = '';
+  let pokeImage = pokeImg;
+
+  const handleSearch = () => {
+    searchInput.set(pokemonName);
+    goto('/all');
+  }
 </script>
 
 <div class="container">
@@ -22,12 +29,9 @@ import pokeImg from '../assets/images/pokeCover.svg';
             bind:value={pokemonName} 
             class="search-input"
           />
-          <!-- <button class="search-button">
-            🔍
-          </button> -->
-          <a href="/all">
+          <button on:click={handleSearch}>
             <img src="/src/assets/images/pokemon-search.svg" alt="search-icon" class="search-icon">            
-          </a>
+          </button>
         </div>
         <a href="/all" class="view-all">View all</a>
     </div>
@@ -35,9 +39,7 @@ import pokeImg from '../assets/images/pokeCover.svg';
   
 <style>
     .container {
-        box-sizing: border-box;
-      /* text-align: center; */
-      /* padding: 2rem; */
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -46,7 +48,6 @@ import pokeImg from '../assets/images/pokeCover.svg';
       padding-bottom: 20px;
       width: 100%;
       font-family: 'Roboto', sans-serif;
-      /* background-color: aqua; */
     }
 
     .upper {
@@ -56,7 +57,6 @@ import pokeImg from '../assets/images/pokeCover.svg';
       justify-content: center;
       width: 30%;
       height: 60%;
-      /* background-color: yellow; */
     }
 
     .title-description {
@@ -93,8 +93,6 @@ import pokeImg from '../assets/images/pokeCover.svg';
       align-items: center;
       justify-content: center;
       width: 40%;
-      /* background-color: aqua; */
-      /* height: 40%; */
     }
   
     .search-bar {
@@ -123,21 +121,18 @@ import pokeImg from '../assets/images/pokeCover.svg';
     }
   
     .search-icon {
-      /* background-color: pink; */
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 0 25px 25px 0;
       cursor: pointer;
       position: absolute;
       right: -1%;
-      /* top: 5%; */
     }
   
     .view-all {
       display: inline-block;
       margin-top: 1rem;
       text-decoration: underline;
-      /* color: blue; */
       cursor: pointer;
     }
 </style>
