@@ -2,9 +2,9 @@
 	import axios from 'axios';
 	import { onMount } from 'svelte';
   import { searchInput } from '$lib/stores';
-  import { get } from 'svelte/store';
 	import pokeLogo from '../../assets/images/pokebook-logo.svg';
 	import viewdetail from '../../assets/images/ic_baseline-remove-red-eye.svg';
+  import PokemonDetail from '$lib/PokemonDetail.svelte';
 
 	interface Pokemon {
 		name: string;
@@ -27,7 +27,8 @@
   let filteredPokemonList: Pokemon[] = [];
 	let currentPage = 1;
 	let itemsPerPage = 8;
-	let totalPages = 1281;
+	let totalPages = 500;
+  let selectedPokemon: Pokemon | null = null;
 
   let search = '';
 
@@ -93,6 +94,18 @@
 		fetchPokemon();
 	}
 
+  function handleView(pokemon: Pokemon) {
+    selectedPokemon = pokemon;
+    document.querySelector('.overlay')?.classList.add('svelte-in');
+  }
+
+  function handleClose() {
+    document.querySelector('.overlay')?.classList.remove('svelte-in');
+    setTimeout(() => {
+      selectedPokemon = null;
+    }, 300);
+  }
+
 	function getVisiblePages() {
 		const visiblePages = 5;
 		let startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
@@ -133,7 +146,7 @@
             </span>
           {/each}
         </div>
-        <button class="view-detail">
+        <button class="view-detail" on:click={() => handleView(pokemon)}>
           <span>View Pokemon</span>
           <img src={viewdetail} alt="View Details" />
         </button>
@@ -170,6 +183,10 @@
         <option value="24">24</option>
       </select>
     </div>
+
+    {#if selectedPokemon}
+      <PokemonDetail pokemon={selectedPokemon} onClose={handleClose}/>
+    {/if}
   </div>
 
 </div>
