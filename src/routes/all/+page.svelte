@@ -4,6 +4,7 @@
   import { searchInput } from '$lib/stores';
   import { get } from 'svelte/store';
 	import pokeLogo from '../../assets/images/pokebook-logo.svg';
+	import viewdetail from '../../assets/images/ic_baseline-remove-red-eye.svg';
 
 	interface Pokemon {
 		name: string;
@@ -32,9 +33,10 @@
 
   searchInput.subscribe(value => {
     search = value;
+    // filterPokemonList();
   });
 
-	async function fetchPokemon() {
+	async function fetchPokemon(): Promise<void> {
 		try {
 			const offset = (currentPage - 1) * itemsPerPage;
       const baseUrl = import.meta.env.VITE_POKEMON_API_BASE_URL;
@@ -55,10 +57,11 @@
 		}
 	}
 
+
 	onMount(async () => {
     try {
       console.log('Fetching Pokemon data...');
-      pokemonList = await fetchPokemon(currentPage, itemsPerPage);
+      await fetchPokemon();
       filterPokemonList();
     } catch (error) {
       console.error('Error fetching Pokémon data:', error);
@@ -74,6 +77,8 @@
   const filterPokemonList = () => {
     if (search) {
       console.log('search', search);
+      console.log('filter ran');
+      console.log(pokemonList);
       filteredPokemonList = pokemonList.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(search.toLowerCase())
       );
@@ -128,7 +133,10 @@
             </span>
           {/each}
         </div>
-        <!-- <button class="view-detail">View Detail</button> -->
+        <button class="view-detail">
+          <span>View Pokemon</span>
+          <img src={viewdetail} alt="View Details" />
+        </button>
       </div>
     {/each}
   </div>
@@ -247,7 +255,7 @@
 	.pokemon-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
-    height: 70%;
+    /* height: 70%; */
     row-gap: 4rem;
     column-gap: 1rem;
     margin: 10%;
@@ -264,21 +272,26 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    height: 100%;
+    height: 300px;
     position: relative;
     transition: height 0.5s, margin-bottom 0.5s;
   }
 
-  /* .view-detail {
-    position: absolute;
+  .view-detail {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px, 20px, 12px, 20px;
     bottom: 10px;
     opacity: 0;
-    background-color: #f9a825;
+    background: #E85382;
     border: none;
-    border-radius: 4px;
+    border-radius: 14px;
     padding: 10px 20px;
     color: white;
     cursor: pointer;
+    z-index: 1;
   }
 
   .pokemon-card:hover {
@@ -289,7 +302,7 @@
   .pokemon-card:hover .view-detail {
     opacity: 1;
     transition: opacity 0.5s;
-  } */
+  }
 
   .pokemon-image-container {
     width: 100%;

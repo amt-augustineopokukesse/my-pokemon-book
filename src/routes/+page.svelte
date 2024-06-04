@@ -29,8 +29,8 @@
             bind:value={pokemonName} 
             class="search-input"
           />
-          <button on:click={handleSearch}>
-            <img src="/src/assets/images/pokemon-search.svg" alt="search-icon" class="search-icon">            
+          <button on:click={handleSearch} class="search-icon">
+            <img src="/src/assets/images/pokemon-search.svg" alt="search-icon" >            
           </button>
         </div>
         <a href="/all" class="view-all">View all</a>
@@ -121,12 +121,17 @@
     }
   
     .search-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
       border: none;
-      padding: 0.5rem 1rem;
+      /* padding: 0.5rem 1rem; */
       border-radius: 0 25px 25px 0;
       cursor: pointer;
       position: absolute;
-      right: -1%;
+      right: 0%;
+      top: 10%;
     }
   
     .view-all {
