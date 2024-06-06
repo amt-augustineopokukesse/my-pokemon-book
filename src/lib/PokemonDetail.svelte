@@ -29,6 +29,7 @@
 	$: console.log(pokemon);
 </script>
 
+<div class="backdrop" on:click={onClose}></div>
 <div class="overlay">
 	<div class="image-container">
 		<button class="close-button" on:click={onClose}>←</button>
@@ -68,30 +69,7 @@
 			</div>
 		{/if}
 		{#if showSimilar}
-        <!-- {#each pokemon.s as }
-            
-        {/each} -->
-			<div class="pokemon-card">
-				<div class="pokemon-image-container">
-					<img
-						src={pokemon.sprites.other.dream_world.front_default}
-						alt={pokemon.name}
-						class="pokemon-image"
-					/>
-				</div>
-				<h3>{pokemon.name}</h3>
-				<div class="pokemon-types">
-					{#each pokemon.types as type}
-						<span class="pokemon-type">
-							{type.type.name}
-						</span>
-					{/each}
-				</div>
-				<button class="view-detail" on:click={() => handleView(pokemon)}>
-					<span>View Pokemon</span>
-					<img src={viewdetail} alt="View Details" />
-				</button>
-			</div>
+			<div>No data</div>
 		{/if}
 	</div>
 	<div class="buttons">
@@ -102,6 +80,15 @@
 </div>
 
 <style>
+	.backdrop {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 999;
+	}
 	.overlay {
 		box-sizing: border-box;
 		display: flex;
@@ -116,7 +103,7 @@
 		background: white;
 		box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 		padding: 20px;
-		z-index: 2;
+		z-index: 1000;
 	}
 
 	.image-container {

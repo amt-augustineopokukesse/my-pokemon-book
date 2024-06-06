@@ -1,10 +1,12 @@
 <script lang="ts">
 	import axios from 'axios';
 	import { onMount } from 'svelte';
-  import { searchInput } from '$lib/stores';
+  import { searchInput, theme, isVisible } from '$lib/stores';
 	import pokeLogo from '../../assets/images/pokebook-logo.svg';
 	import viewdetail from '../../assets/images/ic_baseline-remove-red-eye.svg';
   import PokemonDetail from '$lib/PokemonDetail.svelte';
+  import ThemeSelector from '$lib/ThemeSelector.svelte';
+  
 
 	interface Pokemon {
 		name: string;
@@ -31,10 +33,15 @@
   let selectedPokemon: Pokemon | null = null;
 
   let search = '';
+  let themeColor = 'pink';
+  let isThemeTriggered = false;
 
   searchInput.subscribe(value => {
     search = value;
-    // filterPokemonList();
+  });
+
+  theme.subscribe(value => {
+    themeColor = value;
   });
 
 	async function fetchPokemon(): Promise<void> {
@@ -118,18 +125,24 @@
 
 		return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 	}
+
+
+	function themeModal() {
+    isThemeTriggered = !isThemeTriggered;
+    isVisible.set(isThemeTriggered);
+	}
 </script>
 
 <div class="container">
 	<div class="header">
-		<div class="logo-title">
+		<a href="/" class="logo-title">
 			<img src={pokeLogo} alt="Pokébook" class="logo" />
 			<p class="title"><span class="title-left">Poké</span><span class="title-right">book</p>
-		</div>
+    </a>
     <div class="search-container">
       <input bind:value={search} type="text" placeholder="Enter pokemon name" />
     </div>
-		<p>color picker</p>
+		<button class="themes-button" on:click={themeModal}></button>
 	</div>
 
 	<div class="pokemon-grid">
@@ -187,11 +200,27 @@
     {#if selectedPokemon}
       <PokemonDetail pokemon={selectedPokemon} onClose={handleClose}/>
     {/if}
+
+    {#if $isVisible}
+      <ThemeSelector />
+    {/if}
+
+
   </div>
 
 </div>
 
 <style>
+
+  .themes-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-color: var(--theme);
+  }
+
 	.container {
 		width: 100%;
 		/* background-color: aquamarine; */
@@ -218,6 +247,7 @@
     align-items: center;
     width: 25%;
     position: relative;
+    text-decoration: none;
   }
 
 	.logo {
@@ -237,7 +267,7 @@
         color: black;
     }
     .title-right{
-        color: rgba(232, 83, 130, 1);
+        color: var(--theme);
     }
 
     .search-container {
@@ -302,7 +332,8 @@
     padding: 12px, 20px, 12px, 20px;
     bottom: 10px;
     opacity: 0;
-    background: #E85382;
+    background: var(--theme);
+    /* background: --var(); */
     border: none;
     border-radius: 14px;
     padding: 10px 20px;
@@ -395,7 +426,7 @@
 	}
 
 	.pagination button.active {
-		background: #ff6384;
+		background: var(--theme);
 		color: white;
 	}
 
