@@ -4,8 +4,8 @@
 	export let pokemon;
 	export let onClose;
 
-	let showAbout = false;
-	let showStats = true;
+	let showAbout = true;
+	let showStats = false;
 	let showSimilar = false;
 
 	// @ts-ignore
@@ -26,7 +26,6 @@
 	};
 
 	// @ts-ignore
-	$: console.log(pokemon);
 </script>
 
 <div class="backdrop" on:click={onClose}></div>
@@ -239,7 +238,7 @@
 
 	.stat-value {
 		height: 100%;
-		background: #76c7c0;
+		background: var(--theme);
 	}
 
 	.stat-number {

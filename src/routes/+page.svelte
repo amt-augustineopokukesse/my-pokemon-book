@@ -2,6 +2,7 @@
   import pokeImg from '../assets/images/pokeCover.svg';
   import { searchInput } from '$lib/stores';
   import { goto } from '$app/navigation';
+  import SearchIcon from '$lib/SearchIcon.svelte'
 
   let pokemonName = '';
   let pokeImage = pokeImg;
@@ -30,7 +31,8 @@
             class="search-input"
           />
           <button on:click={handleSearch} class="search-icon">
-            <img src="/src/assets/images/pokemon-search.svg" alt="search-icon" >            
+            <!-- <img src="/src/assets/images/pokemon-search.svg" alt="search-icon" >             -->
+            <SearchIcon />
           </button>
         </div>
         <a href="/all" class="view-all">View all</a>
@@ -79,7 +81,7 @@
         color: black;
     }
     .title-right{
-        color: rgba(232, 83, 130, 1);
+        color: var(--theme);
     }
   
     .description {
@@ -101,7 +103,7 @@
       margin-bottom: 1rem;
       width: 100%;
       position: relative;
-      border: 4px solid pink;
+      border: 4px solid var(--theme);
       border-radius: 50px;
 
     }
@@ -139,6 +141,7 @@
       margin-top: 1rem;
       text-decoration: underline;
       cursor: pointer;
+      color: black;
     }
 </style>
   
