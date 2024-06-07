@@ -31,7 +31,6 @@
             class="search-input"
           />
           <button on:click={handleSearch} class="search-icon">
-            <!-- <img src="/src/assets/images/pokemon-search.svg" alt="search-icon" >             -->
             <SearchIcon />
           </button>
         </div>
@@ -128,7 +127,6 @@
       justify-content: center;
       background-color: transparent;
       border: none;
-      /* padding: 0.5rem 1rem; */
       border-radius: 0 25px 25px 0;
       cursor: pointer;
       position: absolute;

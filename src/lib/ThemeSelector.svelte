@@ -1,17 +1,11 @@
 <script>
-	import { theme, isVisible } from './stores';
+	import { isVisible } from './stores';
 
 	// @ts-ignore
-	// const setTheme = (selectedTheme) => {
-	// 	theme.set(selectedTheme);
-    //     console.log(selectedTheme);
-	// };
-
     function changeThemeColor(newColor) {
         document.documentElement.style.setProperty('--theme', newColor);
     }
 
-    // export let onClose;
     function closeSelector() {
         isVisible.set(false);
     }

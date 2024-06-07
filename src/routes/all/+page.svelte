@@ -134,7 +134,7 @@
 </script>
 
 <div class="container">
-	<div class="header">
+	<nav class="header">
 		<a href="/" class="logo-title">
 			<img src={pokeLogo} alt="Pokébook" class="logo" />
 			<p class="title"><span class="title-left">Poké</span><span class="title-right">book</p>
@@ -143,59 +143,62 @@
       <input bind:value={search} type="text" placeholder="Enter pokemon name" />
     </div>
 		<button class="themes-button" on:click={themeModal}></button>
-	</div>
+	</nav>
 
-	<div class="pokemon-grid">
-    {#each filteredPokemonList as pokemon}
-      <div class="pokemon-card">
-        <div class="pokemon-image-container">
-          <img src={pokemon.sprites.other.dream_world.front_default} alt={pokemon.name} class="pokemon-image"/>
-        </div>
-        <h3>{pokemon.name}</h3>
-        <div class="pokemon-types">
-          {#each pokemon.types as type}
-            <span class="pokemon-type">
-              {type.type.name}
-            </span>
-          {/each}
-        </div>
-        <button class="view-detail" on:click={() => handleView(pokemon)}>
-          <span>View Pokemon</span>
-          <img src={viewdetail} alt="View Details" />
+	<main class="main">
+    <section class="grid-container">
+      <div class="pokemon-grid">
+        {#each filteredPokemonList as pokemon}
+          <div class="pokemon-card">
+            <div class="pokemon-image-container">
+              <img src={pokemon.sprites.other.dream_world.front_default} alt={pokemon.name} class="pokemon-image"/>
+            </div>
+            <h3>{pokemon.name}</h3>
+            <div class="pokemon-types">
+              {#each pokemon.types as type}
+                <span class="pokemon-type">
+                  {type.type.name}
+                </span>
+              {/each}
+            </div>
+            <button class="view-detail" on:click={() => handleView(pokemon)}>
+              <span>View Pokemon</span>
+              <img src={viewdetail} alt="View Details" />
+            </button>
+          </div>
+        {/each}
+      </div>
+    </section>
+  
+    <section class="pagination-container">
+      <div class="pagination">
+        <button class:disabled={currentPage === 1} on:click={() => handlePageChange(currentPage - 1)}>
+          &lt;
+        </button>
+    
+        {#each getVisiblePages() as page}
+          <button class:active={currentPage === page} on:click={() => handlePageChange(page)}>
+            {page}
+          </button>
+        {/each}
+    
+        <button
+          class:disabled={currentPage === totalPages}
+          on:click={() => handlePageChange(currentPage + 1)}
+        >
+          &gt;
         </button>
       </div>
-    {/each}
-  </div>
-
-  <div class="pagination-container">
-    <div class="pagination">
-      <button class:disabled={currentPage === 1} on:click={() => handlePageChange(currentPage - 1)}>
-        &lt;
-      </button>
-  
-      {#each getVisiblePages() as page}
-        <button class:active={currentPage === page} on:click={() => handlePageChange(page)}>
-          {page}
-        </button>
-      {/each}
-  
-      <button
-        class:disabled={currentPage === totalPages}
-        on:click={() => handlePageChange(currentPage + 1)}
-      >
-        &gt;
-      </button>
-    </div>
-  
-    <div class="items-per-page">
-      <!-- Items per page: -->
-      <select bind:value={itemsPerPage} on:change={() => handlePageChange(1)}>
-        <option value="8">8</option>
-        <option value="12">12</option>
-        <option value="16">16</option>
-        <option value="24">24</option>
-      </select>
-    </div>
+    
+      <div class="items-per-page">
+        <select bind:value={itemsPerPage} on:change={() => handlePageChange(1)}>
+          <option value="8">8</option>
+          <option value="12">12</option>
+          <option value="16">16</option>
+          <option value="24">24</option>
+        </select>
+      </div>
+  </section>
 
     {#if selectedPokemon}
       <PokemonDetail pokemon={selectedPokemon} onClose={handleClose}/>
@@ -205,8 +208,7 @@
       <ThemeSelector />
     {/if}
 
-
-  </div>
+  </main>
 
 </div>
 
@@ -223,15 +225,16 @@
 
 	.container {
 		width: 100%;
-		/* background-color: aquamarine; */
 		height: 100vh;
 		padding-bottom: 20px;
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 	}
 
 	.header {
-		height: 80px;
+		height: 10%;
 		padding: 0 5%;
 		display: flex;
 		position: relative;
@@ -299,14 +302,31 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
+  .main {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+
+  .grid-container {
+    width: 100%;
+    height: 95%;
+    box-sizing: border-box;
+  }
+
 	.pokemon-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(22%, 1fr));
-    /* height: 70%; */
+    height: 100%;
     row-gap: 4rem;
     column-gap: 1rem;
-    margin: 10%;
+    padding: 5% 10% 0% 10%;
     box-sizing: border-box;
+    overflow-y: scroll;
   }
 
   .pokemon-card {
@@ -333,7 +353,6 @@
     bottom: 10px;
     opacity: 0;
     background: var(--theme);
-    /* background: --var(); */
     border: none;
     border-radius: 14px;
     padding: 10px 20px;
@@ -370,7 +389,6 @@
     position: absolute;
     top: -50px;
     margin-bottom: 0.5rem;
-    /* background-color: #999; */
   }
 
   .pokemon-card h3 {
@@ -383,13 +401,11 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    /* margin-top: 0.5rem; */
   }
 
   .pokemon-type {
     display: flex;
     align-items: center;
-    /* background-color: #f8f8f8; */
     padding: 0.3rem 0.6rem;
     font-size: 0.9rem;
     text-transform: capitalize;
@@ -403,18 +419,14 @@
     align-items: center;
     width: 80%;
     margin: 0 auto;
-    position: relative;
-    top: -100px;
-    /* margin-bottom: 50px; */
-    /* margin-top: 2rem; */
-    padding-bottom: 50px;
+    padding: 20px;
+    box-sizing: border-box;
 
   }
 	.pagination {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		/* margin-top: 2rem; */
 	}
 
 	.pagination button {
@@ -438,14 +450,50 @@
 	.items-per-page {
     width: 85px;
     height: 40px;
-		/* margin-top: 1rem; */
     border-radius: 8px;
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-	}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: #f3f3f3;
+    text-align: left;
+  }
 
-	.items-per-page select {
-		margin-left: 0.5rem;
-	}
+  .items-per-page select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+    padding: 0 10px;
+    font-size: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .items-per-page::after {
+    content: '\25BC';
+    position: absolute;
+    right: 0px;
+    pointer-events: none;
+    font-size: 12px;
+    color: #333;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .items-per-page select option {
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    padding: 8px;
+  }
 </style>
