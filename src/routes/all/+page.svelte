@@ -55,7 +55,6 @@
 
 			const promises = results.map(async (pokemon: { name: string; url: string }) => {
 				const pokemonDetails = await axios.get(pokemon.url);
-				console.log(pokemonDetails);
 				return pokemonDetails.data;
 			});
 
@@ -68,7 +67,6 @@
 
 	onMount(async () => {
     try {
-      console.log('Fetching Pokemon data...');
       await fetchPokemon();
       filterPokemonList();
     } catch (error) {
@@ -84,14 +82,10 @@
 
   const filterPokemonList = () => {
     if (search) {
-      console.log('search', search);
-      console.log('filter ran');
-      console.log(pokemonList);
       filteredPokemonList = pokemonList.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(search.toLowerCase())
       );
     } else {
-      console.log('filter did not run');
       filteredPokemonList = pokemonList;
     }
   };
